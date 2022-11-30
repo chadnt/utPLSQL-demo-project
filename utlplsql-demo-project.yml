@@ -15,14 +15,14 @@ variables:
   DB_USER: ut3_demo
   DB_PASS: ut3_demo  
 
-# jobs:
-# - job: utPLSQL_demo_project
-#   displayName: Build utPLSQL-demo-project
-#   strategy:
-#     matrix:
-#       Oracle19_2:
-#         ORACLE_VERSION: "19c-se2-small"
-#     maxParallel: 2
+jobs:
+- job: utPLSQL_demo_project
+  displayName: Build utPLSQL-demo-project
+  strategy:
+    matrix:
+      Oracle19_2:
+        ORACLE_VERSION: "19c-se2-small"
+    maxParallel: 2
 
 #   steps:
 #   - template: .azure_templates/t-task-extend-download-binaries.yml
