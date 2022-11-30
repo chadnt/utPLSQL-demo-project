@@ -18,11 +18,6 @@ variables:
 jobs:
 - job: utPLSQL_demo_project
   displayName: Build utPLSQL-demo-project
-  strategy:
-    matrix:
-      Oracle19_2:
-        ORACLE_VERSION: "19c-se2-small"
-    maxParallel: 2
 
   steps:
   - template: .azure_templates/t-task-extend-download-binaries.yml
@@ -41,6 +36,20 @@ jobs:
           url: "https://github.com/utPLSQL/utPLSQL-cli/releases/download/$(UTPLSQL_CLI_VERSION)/utPLSQL-cli.zip"
           archive: "zip"
           addToPath: "$(UTPLSQL_CLI_DIR)/bin"
+
+  - bash: |
+      git clone --depth=1 --branch=$(UTPLSQL_VERSION) https://github.com/utPLSQL/utPLSQL.git $(UTPLSQL_DIR)
+      chmod -R go+w $(UTPLSQL_DIR)
+    displayName: 'Download utPLSQL'
+
+  - task: Docker@2
+    displayName: Docker Login
+    inputs:
+      containerRegistry: acr-nbt-mes-test
+      command: 'login'
+      addPipelineData: false
+      addBaseImageData: false
+
   - bash: |
       # download Oracle Database docker image from private repo and start the DB
       time docker pull acrnbtmestest.azurecr.io/oracle-xe:21.0
