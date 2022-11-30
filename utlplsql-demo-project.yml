@@ -59,7 +59,7 @@ jobs:
       docker exec oracle-xe ./setPassword.sh nucor
     displayName: Start container
 
-  - template: t-task-extend-sqlcl.yml
+  - template: .azure_templates/t-task-extend-sqlcl.yml
     parameters:
       work_dir: $(UTPLSQL_DIR)/source
       user: sys
