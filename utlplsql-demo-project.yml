@@ -58,6 +58,10 @@ jobs:
 
   - script: time docker logs -f oracle-xe | grep -m 1 "DATABASE IS READY TO USE!" --line-buffered
     displayName: Wait for database
+
+  - script: |
+      docker exec oracle-xe setPassword.sh nucor
+      echo 'exit' | sqlplus system/nucor@localhost:xepdb1 
       
   # - template: .azure_templates/t-extend-database-build.yml
   #   parameters:
