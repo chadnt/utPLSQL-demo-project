@@ -45,13 +45,13 @@ steps:
     chmod -R go+w ${{ parameters.utplsqlDir}}
   displayName: 'Download utPLSQL'
 
-# - task: Docker@2
-#   displayName: Docker Login
-#   inputs:
-#     containerRegistry: ${{ parameters.containerRegistry }}
-#     command: 'login'
-#     addPipelineData: false
-#     addBaseImageData: false
+- task: Docker@2
+  displayName: Docker Login
+  inputs:
+    containerRegistry: ${{ parameters.containerRegistry }}
+    command: 'login'
+    addPipelineData: false
+    addBaseImageData: false
                
 # - ${{ each trg_db in parameters.targetDatabases }}:
 #   - bash: |
