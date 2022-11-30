@@ -54,7 +54,7 @@ jobs:
     displayName: Pull image
 
   - script: time docker run -d --name oracle-xe -p 1521:1521 acrnbtmestest.azurecr.io/oracle-xe:21.0
-    displayname: Start container
+    displayName: Start container
 
   - script: time docker logs -f oracle-xe | grep -m 1 "DATABASE IS READY TO USE!" --line-buffered
     displayName: Wait for database
