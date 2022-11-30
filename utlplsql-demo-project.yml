@@ -95,6 +95,30 @@ jobs:
       script: test/install.sql
       displayName: Install Tests
 
+  - template: .azure_templates/t-task-extend-utplsqlcli.yml
+    parameters:
+      work_dir: $(Build.SourcesDirectory)
+      connectionString: localhost/xepdb1
+      test_user: $(DB_USER)
+      test_pwd: $(DB_PASS)
+      source_path: source
+      test_path: test
+      options: --debug --failure-exit-code=0
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/junit_test_results.xml'
+      testRunTitle: 'Publish test results'
+    displayName: 'Publish test results'
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: 'cobertura.xml'
+      pathToSources: 'source'
+    displayName: 'Publish coverage'
+
   # - template: .azure_templates/t-extend-database-build.yml
   #   parameters:
   #     containerRegistry: acr-nbt-mes-test
