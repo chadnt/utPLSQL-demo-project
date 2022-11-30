@@ -41,42 +41,50 @@ jobs:
           url: "https://github.com/utPLSQL/utPLSQL-cli/releases/download/$(UTPLSQL_CLI_VERSION)/utPLSQL-cli.zip"
           archive: "zip"
           addToPath: "$(UTPLSQL_CLI_DIR)/bin"
+  - bash: |
+      # download Oracle Database docker image from private repo and start the DB
+      time docker pull acrnbtmestest.azurecr.io/oracle-xe:21.0
+      # start the docker container (DB)
+      time docker run -d --name oracle-xe -p 1521:1521 acrnbtmestest.azurecr.io/oracle-xe:21.0
+      # Wait for DB startup
+      time docker logs -f oracle-xe | grep -m 1 "DATABASE IS READY TO USE!" --line-buffered
+    displayName: 'Start Oracle container'
       
-  - template: .azure_templates/t-extend-database-build.yml
-    parameters:
-      containerRegistry: acr-nbt-mes-test
-      dockerRepo: utplsqlv3/oracledb    
-      utplsqlVersion: ${UTPLSQL_VERSION}
-      utplsqlDir: ${UTPLSQL_DIR}
-      test_user: ${DB_USER}
-      test_pwd: ${DB_PASS}
-      targetDatabases:
-        - oracleVersion: "19c-se2-small"
-          connectionString: "127.0.0.1:1521/ORCLCDB"
-          dockerPortMap: "1521"
-          dockerOptions: "--shm-size=1g"
-          scripts:
-            - displayName: "Install utPLSQL"
-              user: "sys"
-              password: "oracle"           
-              script: "install_headless.sql UT3 UT3 users"
-              work_dir: "${UTPLSQL_DIR}/source"
+  # - template: .azure_templates/t-extend-database-build.yml
+  #   parameters:
+  #     containerRegistry: acr-nbt-mes-test
+  #     dockerRepo: utplsqlv3/oracledb    
+  #     utplsqlVersion: ${UTPLSQL_VERSION}
+  #     utplsqlDir: ${UTPLSQL_DIR}
+  #     test_user: ${DB_USER}
+  #     test_pwd: ${DB_PASS}
+  #     targetDatabases:
+  #       - oracleVersion: "19c-se2-small"
+  #         connectionString: "127.0.0.1:1521/ORCLCDB"
+  #         dockerPortMap: "1521"
+  #         dockerOptions: "--shm-size=1g"
+  #         scripts:
+  #           - displayName: "Install utPLSQL"
+  #             user: "sys"
+  #             password: "oracle"           
+  #             script: "install_headless.sql UT3 UT3 users"
+  #             work_dir: "${UTPLSQL_DIR}/source"
 
-            - displayName: "Create Test User"
-              user: "sys"
-              password: "oracle"           
-              script: "source/create_user.sql"
-              work_dir: "$(Build.SourcesDirectory)"
+  #           - displayName: "Create Test User"
+  #             user: "sys"
+  #             password: "oracle"           
+  #             script: "source/create_user.sql"
+  #             work_dir: "$(Build.SourcesDirectory)"
 
-            - displayName: "Install Source"
-              user: "${DB_USER}"
-              password: "${DB_PASS}"           
-              script: "source/install.sql"
-              work_dir: "$(Build.SourcesDirectory)"
+  #           - displayName: "Install Source"
+  #             user: "${DB_USER}"
+  #             password: "${DB_PASS}"           
+  #             script: "source/install.sql"
+  #             work_dir: "$(Build.SourcesDirectory)"
 
-            - displayName: "Install Tests"
-              user: "${DB_USER}"
-              password: "${DB_PASS}"           
-              script: "test/install.sql"
-              work_dir: "$(Build.SourcesDirectory)" 
+  #           - displayName: "Install Tests"
+  #             user: "${DB_USER}"
+  #             password: "${DB_PASS}"           
+  #             script: "test/install.sql"
+  #             work_dir: "$(Build.SourcesDirectory)" 
 
