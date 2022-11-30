@@ -53,16 +53,21 @@ jobs:
   - script: time docker pull acrnbtmestest.azurecr.io/oracle-xe:21.0
     displayName: Pull image
 
-  - script: time docker run -d --name oracle-xe -p 1521:1521 acrnbtmestest.azurecr.io/oracle-xe:21.0
+  - script: |
+      docker run -d --name oracle-xe -p 1521:1521 acrnbtmestest.azurecr.io/oracle-xe:21.0
+      docker logs -f oracle-xe | grep -m 1 "DATABASE IS READY TO USE!" --line-buffered
+      docker exec oracle-xe ./setPassword.sh nucor
     displayName: Start container
 
-  - script: time docker logs -f oracle-xe | grep -m 1 "DATABASE IS READY TO USE!" --line-buffered
-    displayName: Wait for database
+  - template: t-task-extend-sqlcl.yml
+    parameters:
+      work_dir: $(UTPLSQL_DIR)/source
+      user: sys
+      password: nucor
+      connectionString: localhost/xepdb1
+      script: install_headless.sql UT3 UT3 users
+      displayName: Install utPLSQL
 
-  - script: |
-      docker exec oracle-xe ./setPassword.sh nucor
-      docker exec oracle-xe sqlplus system/nucor@localhost/xepdb1 
-      
   # - template: .azure_templates/t-extend-database-build.yml
   #   parameters:
   #     containerRegistry: acr-nbt-mes-test
