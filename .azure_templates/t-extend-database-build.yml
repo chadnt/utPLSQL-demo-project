@@ -39,11 +39,11 @@ parameters:
             default: ""
 
 
-# steps:
-# - bash: |
-#     git clone --depth=1 --branch=${{ parameters.utplsqlVersion }} https://github.com/utPLSQL/utPLSQL.git ${{ parameters.utplsqlDir}}
-#     chmod -R go+w ${{ parameters.utplsqlDir}}
-#   displayName: 'Download utPLSQL'
+steps:
+- bash: |
+    git clone --depth=1 --branch=${{ parameters.utplsqlVersion }} https://github.com/utPLSQL/utPLSQL.git ${{ parameters.utplsqlDir}}
+    chmod -R go+w ${{ parameters.utplsqlDir}}
+  displayName: 'Download utPLSQL'
 
 # - task: Docker@2
 #   displayName: Docker Login
