@@ -68,6 +68,33 @@ jobs:
       script: install_headless.sql UT3 UT3 users
       displayName: Install utPLSQL
 
+  - template: .azure_templates/t-task-extend-sqlcl.yml
+    parameters:
+      work_dir: $(Build.SourcesDirectory)
+      user: sys
+      password: nucor
+      connectionString: localhost/xepdb1
+      script: source/create_user.sql $(DB_USER) $(DB_PASS)
+      displayName: Create Test User
+
+  - template: .azure_templates/t-task-extend-sqlcl.yml
+    parameters:
+      work_dir: $(Build.SourcesDirectory)
+      user: $(DB_USER)
+      password: $(DB_PASS)
+      connectionString: localhost/xepdb1
+      script: source/install.sql
+      displayName: Install Source
+
+  - template: .azure_templates/t-task-extend-sqlcl.yml
+    parameters:
+      work_dir: $(Build.SourcesDirectory)
+      user: $(DB_USER)
+      password: $(DB_PASS)
+      connectionString: localhost/xepdb1
+      script: test/install.sql
+      displayName: Install Tests
+
   # - template: .azure_templates/t-extend-database-build.yml
   #   parameters:
   #     containerRegistry: acr-nbt-mes-test
