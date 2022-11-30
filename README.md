@@ -60,3 +60,9 @@ At the end of build stage we will produce immutable artifact that has been teste
     - Provision a database from docker *( this step most likely you will not run as these databases will exists already)*
     - Create user to deploy code to *( this step most likely you will not run as the user will exists already and we will update database)*
     - Execute Liquibase / Flyway commands to update database
+
+# Notes
+
+Okay. Looks like the pipeline expects us to have a docker image in a private repository. Let's figure that out.
+
+Start simple. ADO tutorial using a docker image...
