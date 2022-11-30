@@ -60,8 +60,8 @@ jobs:
     displayName: Wait for database
 
   - script: |
-      docker exec oracle-xe setPassword.sh nucor
-      echo 'exit' | sqlplus system/nucor@localhost:xepdb1 
+      docker exec oracle-xe ./setPassword.sh nucor
+      docker exec oracle-xe sqlplus system/nucor@localhost/xepdb1 
       
   # - template: .azure_templates/t-extend-database-build.yml
   #   parameters:
