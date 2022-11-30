@@ -35,12 +35,12 @@ jobs:
           archive: "zip"
           addtoPath: "$(SQLCL_DIR)/bin"
 
-#         - name: utlplsqlcli
-#           download_location: "$(Build.BinariesDirectory)/utPLSQL-cli.zip"
-#           unpack_location: "$(Build.BinariesDirectory)"
-#           url: "https://github.com/utPLSQL/utPLSQL-cli/releases/download/$(UTPLSQL_CLI_VERSION)/utPLSQL-cli.zip"
-#           archive: "zip"
-#           addToPath: "$(UTPLSQL_CLI_DIR)/bin"
+        - name: utlplsqlcli
+          download_location: "$(Build.BinariesDirectory)/utPLSQL-cli.zip"
+          unpack_location: "$(Build.BinariesDirectory)"
+          url: "https://github.com/utPLSQL/utPLSQL-cli/releases/download/$(UTPLSQL_CLI_VERSION)/utPLSQL-cli.zip"
+          archive: "zip"
+          addToPath: "$(UTPLSQL_CLI_DIR)/bin"
       
 #   - template: .azure_templates/t-extend-database-build.yml
 #     parameters:
