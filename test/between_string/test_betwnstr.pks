@@ -21,7 +21,7 @@ create or replace package test_betwnstr as
   -- procedure bad_test;
 
   -- %test(Demo of a disabled test)
-  -- %disabled
+  -- -- %disabled
   -- procedure disabled_test;
 
 end;
