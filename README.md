@@ -1,19 +1,10 @@
-[![Build](https://github.com/utPLSQL/utPLSQL-demo-project/actions/workflows/build.yml/badge.svg)](https://github.com/utPLSQL/utPLSQL-demo-project/actions/workflows/build.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=utPLSQL%3AutPLSQL-demo-project&metric=alert_status)](https://sonarcloud.io/dashboard?id=utPLSQL%3AutPLSQL-demo-project)
+# PL/SQL unit testing demo
 
-Main utPLSQL Project Build:
-[![Build Status](https://dev.azure.com/utplsql/utplsql/_apis/build/status/utPLSQL.utPLSQL-demo-project?branchName=develop)](https://dev.azure.com/utplsql/utplsql/_build/latest?definitionId=5&branchName=develop)
+[![Build Status](https://dev.azure.com/chadhodnett01/chadnt.utPLSQL-demo-project/_apis/build/status/chadnt.utPLSQL-demo-project?branchName=develop)](https://dev.azure.com/chadhodnett01/chadnt.utPLSQL-demo-project/_build/latest?definitionId=10&branchName=develop)
 
-utPLSQL build using Liquibase
-[![Build Status](https://dev.azure.com/utplsql/utplsql/_apis/build/status/utPLSQL.utPLSQL-demo-sqlcl-liquibase-cicd?branchName=develop)](https://dev.azure.com/utplsql/utplsql/_build/latest?definitionId=6&branchName=develop)
-
-utPLSQL build using RedgateFlyway
-[![Build Status](https://dev.azure.com/utplsql/utplsql/_apis/build/status/utPLSQL.utPLSQL-demo-flyway-cicd?branchName=develop)](https://dev.azure.com/utplsql/utplsql/_build/latest?definitionId=7&branchName=develop)
-
-# CI/CD and Unit Testing for Oracle PLSQL
+This project is a fork of the utPLSQL demo project adapted for the Nucor's Azure DevOps.
 
 ## Demo project using utPLSQL, Travis and SonarCloud for continuous integration of PLSQL and SQL code. 
-
 
 This is a demo project using [utPLSQL v3](https://github.com/utPLSQL/utPLSQL) for unit testing of Oracle PLSQL code.
 The project is also taking benefit of Continuous Integration with Travis CI server as well as static code analysis, code coverage and test results reporting using SonarCloud.
@@ -60,9 +51,3 @@ At the end of build stage we will produce immutable artifact that has been teste
     - Provision a database from docker *( this step most likely you will not run as these databases will exists already)*
     - Create user to deploy code to *( this step most likely you will not run as the user will exists already and we will update database)*
     - Execute Liquibase / Flyway commands to update database
-
-# Notes
-
-Okay. Looks like the pipeline expects us to have a docker image in a private repository. Let's figure that out.
-
-https://learn.microsoft.com/en-us/azure/devops/pipelines/agents/v2-linux?view=azure-devops
