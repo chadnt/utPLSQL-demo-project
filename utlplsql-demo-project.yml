@@ -1,8 +1,7 @@
 trigger: 
   - develop
 
-pool:
-  vmImage: ubuntu-latest
+pool: default
 
 variables:
   CACHE_DIR: $(Pipeline.Workspace)/.cache
@@ -12,70 +11,14 @@ variables:
   UTPLSQL_CLI_VERSION: 'v3.1.8'
   UTPLSQL_VERSION: 'v3.1.11' 
   DOCKHER_HUB_REPO: 'utplsqlv3/oracledb'
-  DB_USER: ut3_demo
-  DB_PASS: ut3_demo  
+  DB_USER: test
+  DB_PASS: test  
 
 jobs:
 - job: utPLSQL_demo_project
   displayName: Build utPLSQL-demo-project
 
   steps:
-  - template: .azure_templates/t-task-extend-download-binaries.yml
-    parameters:
-      packages:
-        - name: sqlcl
-          download_location: "$(Build.BinariesDirectory)/sqlcl-latest.zip"
-          unpack_location: "$(Build.BinariesDirectory)"
-          url: "https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-latest.zip"
-          archive: "zip"
-          addtoPath: "$(SQLCL_DIR)/bin"
-
-        - name: utlplsqlcli
-          download_location: "$(Build.BinariesDirectory)/utPLSQL-cli.zip"
-          unpack_location: "$(Build.BinariesDirectory)"
-          url: "https://github.com/utPLSQL/utPLSQL-cli/releases/download/$(UTPLSQL_CLI_VERSION)/utPLSQL-cli.zip"
-          archive: "zip"
-          addToPath: "$(UTPLSQL_CLI_DIR)/bin"
-
-  - script: |
-      git clone --depth=1 --branch=$(UTPLSQL_VERSION) https://github.com/utPLSQL/utPLSQL.git $(UTPLSQL_DIR)
-      chmod -R go+w $(UTPLSQL_DIR)
-    displayName: 'Download utPLSQL'
-
-  - task: Docker@2
-    displayName: Docker Login
-    inputs:
-      containerRegistry: acr-nbt-mes-test
-      command: 'login'
-      addPipelineData: false
-      addBaseImageData: false
-
-  - script: time docker pull acrnbtmestest.azurecr.io/oracle-xe:21.0
-    displayName: Pull image
-
-  - script: |
-      docker run -d --name oracle-xe -p 1521:1521 acrnbtmestest.azurecr.io/oracle-xe:21.0
-      docker logs -f oracle-xe | grep -m 1 "DATABASE IS READY TO USE!" --line-buffered
-      docker exec oracle-xe ./setPassword.sh nucor
-    displayName: Start container
-
-  - template: .azure_templates/t-task-extend-sqlcl.yml
-    parameters:
-      work_dir: $(UTPLSQL_DIR)/source
-      user: sys
-      password: nucor
-      connectionString: localhost/xepdb1
-      script: install_headless.sql UT3 UT3 users
-      displayName: Install utPLSQL
-
-  - template: .azure_templates/t-task-extend-sqlcl.yml
-    parameters:
-      work_dir: $(Build.SourcesDirectory)
-      user: sys
-      password: nucor
-      connectionString: localhost/xepdb1
-      script: source/create_user.sql $(DB_USER) $(DB_PASS)
-      displayName: Create Test User
 
   - template: .azure_templates/t-task-extend-sqlcl.yml
     parameters:
@@ -118,42 +61,3 @@ jobs:
       summaryFileLocation: 'cobertura.xml'
       pathToSources: 'source'
     displayName: 'Publish coverage'
-
-  # - template: .azure_templates/t-extend-database-build.yml
-  #   parameters:
-  #     containerRegistry: acr-nbt-mes-test
-  #     dockerRepo: utplsqlv3/oracledb    
-  #     utplsqlVersion: ${UTPLSQL_VERSION}
-  #     utplsqlDir: ${UTPLSQL_DIR}
-  #     test_user: ${DB_USER}
-  #     test_pwd: ${DB_PASS}
-  #     targetDatabases:
-  #       - oracleVersion: "19c-se2-small"
-  #         connectionString: "127.0.0.1:1521/ORCLCDB"
-  #         dockerPortMap: "1521"
-  #         dockerOptions: "--shm-size=1g"
-  #         scripts:
-  #           - displayName: "Install utPLSQL"
-  #             user: "sys"
-  #             password: "oracle"           
-  #             script: "install_headless.sql UT3 UT3 users"
-  #             work_dir: "${UTPLSQL_DIR}/source"
-
-  #           - displayName: "Create Test User"
-  #             user: "sys"
-  #             password: "oracle"           
-  #             script: "source/create_user.sql"
-  #             work_dir: "$(Build.SourcesDirectory)"
-
-  #           - displayName: "Install Source"
-  #             user: "${DB_USER}"
-  #             password: "${DB_PASS}"           
-  #             script: "source/install.sql"
-  #             work_dir: "$(Build.SourcesDirectory)"
-
-  #           - displayName: "Install Tests"
-  #             user: "${DB_USER}"
-  #             password: "${DB_PASS}"           
-  #             script: "test/install.sql"
-  #             work_dir: "$(Build.SourcesDirectory)" 
-

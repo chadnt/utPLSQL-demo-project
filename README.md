@@ -65,4 +65,4 @@ At the end of build stage we will produce immutable artifact that has been teste
 
 Okay. Looks like the pipeline expects us to have a docker image in a private repository. Let's figure that out.
 
-Start simple. ADO tutorial using a docker image...
+https://learn.microsoft.com/en-us/azure/devops/pipelines/agents/v2-linux?view=azure-devops
