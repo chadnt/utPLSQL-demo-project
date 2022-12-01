@@ -24,7 +24,7 @@ rm sqlcl-latest.zip
 
 # Download utplsql-cli
 curl --location --remote-name \
-    https://github.com/utPLSQL/utPLSQL-cli/releases/download/v3.1.9/utPLSQL-cli.zip
+    https://github.com/utPLSQL/utPLSQL-cli/releases/download/3.1.9/utPLSQL-cli.zip
 unzip -o utPLSQL-cli.zip -d $BIN
 rm utPLSQL-cli.zip
 
