@@ -24,12 +24,12 @@ rm sqlcl-latest.zip
 
 # Download utplsql-cli
 curl --location --remote-name \
-    https://github.com/utPLSQL/utPLSQL-cli/releases/download/v3.1.8/utPLSQL-cli.zip
+    https://github.com/utPLSQL/utPLSQL-cli/releases/download/v3.1.9/utPLSQL-cli.zip
 unzip -o utPLSQL-cli.zip -d $BIN
 rm utPLSQL-cli.zip
 
 # Download utPLSQL
-git clone --depth=1 --branch=v3.1.8 https://github.com/utPLSQL/utPLSQL.git $BIN/utplsql
+git clone --depth=1 --branch=v3.1.12 https://github.com/utPLSQL/utPLSQL.git $BIN/utplsql
 chmod -R go+w $BIN/utplsql
 
 # Install utPLSQL
