@@ -15,16 +15,14 @@ create or replace package test_betwnstr as
   procedure null_string;
 
   -- %test(A demo of test raising runtime exception)
-  -- %disabled
-  procedure bad_params;
+  -- procedure bad_params;
 
   -- %test(A demo of failing test)
-  -- %disabled
-  procedure bad_test;
+  -- procedure bad_test;
 
   -- %test(Demo of a disabled test)
   -- %disabled
-  procedure disabled_test;
+  -- procedure disabled_test;
 
 end;
 /
