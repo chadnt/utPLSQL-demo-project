@@ -41,3 +41,6 @@ $SQLCL_DIR/bin/sql \
 $SQLCL_DIR/bin/sql \
     sys/nucor@//localhost/xepdb1?oracle.net.disableOob=true as sysdba \
     @$SCRIPTS_DIR/create_user.sql test test
+
+# Install dotnet
+sudo snap install dotnet-sdk --classic
