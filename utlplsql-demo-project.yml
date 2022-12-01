@@ -20,6 +20,9 @@ jobs:
 
   steps:
 
+  - task: UseDotNet@2
+    displayName: 'Use dotnet'
+
   - template: .azure_templates/t-task-extend-sqlcl.yml
     parameters:
       work_dir: $(Build.SourcesDirectory)
