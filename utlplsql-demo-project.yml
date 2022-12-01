@@ -47,3 +47,4 @@ jobs:
       testResultsFiles: '**/junit_test_results.xml'
       testRunTitle: 'Publish test results'
     displayName: 'Publish test results'
+    condition: always
